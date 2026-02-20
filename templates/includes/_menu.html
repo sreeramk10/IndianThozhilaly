@@ -1,0 +1,56 @@
+{% load static %}
+
+<!-- Fullscreen Menu -->
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <div class="menu__bg"></div>
+
+    <div class="menu__container">
+        <!-- Menu Header -->
+        <div class="menu__header">
+            <div class="menu__logo">
+                <img src="{% static 'assets/logoo.png' %}" alt="INTUC" width="48" height="48">
+                <div class="menu__logo-text">
+                    <span class="menu__logo-ml" id="menuLogoText">തൊഴിലാളി</span>
+                    <span class="menu__logo-en">Indian Thozhilali</span>
+                </div>
+            </div>
+
+            <button class="menu__close" id="menuClose" aria-label="Close menu">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu__content">
+            <!-- Main Navigation -->
+            <nav class="menu__nav" role="navigation">
+                <a href="{% url 'index' %}" class="menu__link" data-menu-item>
+                    <span class="menu__link-text">Home</span>
+                    <span class="menu__link-number">01</span>
+                </a>
+                <a href="{% url 'index' %}#stories" class="menu__link" data-menu-item>
+                    <span class="menu__link-text">Stories</span>
+                    <span class="menu__link-number">02</span>
+                </a>
+                <a href="{% url 'index' %}#magazine" class="menu__link" data-menu-item>
+                    <span class="menu__link-text">Magazine</span>
+                    <span class="menu__link-number">03</span>
+                </a>
+                <a href="{% url 'archive_list' %}" class="menu__link" data-menu-item>
+                    <span class="menu__link-text">Archive</span>
+                    <span class="menu__link-number">04</span>
+                </a>
+                <a href="{% url 'index' %}#about" class="menu__link" data-menu-item>
+                    <span class="menu__link-text">About</span>
+                    <span class="menu__link-number">05</span>
+                </a>
+            </nav>
+
+            <!-- Menu Footer -->
+            <div class="menu__footer">
+                <p class="menu__tagline">Empowering Kerala's workers since 1950</p>
+            </div>
+        </div>
+    </div>
+</div>

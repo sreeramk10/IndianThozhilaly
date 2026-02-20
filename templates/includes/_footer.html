@@ -1,0 +1,46 @@
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+    <div class="footer__wrapper">
+        <div class="footer__main">
+            <div class="footer__brand">
+                <h3>തൊഴിലാളി</h3>
+                <p>Indian National Trade Union Congress<br>Kerala Branch</p>
+            </div>
+
+            <div class="footer__links">
+                <div class="footer__col">
+                    <h4>Magazine</h4>
+                    <a href="{% url 'index' %}#magazine">Latest Issue</a>
+                    <a href="{% url 'archive_list' %}">Archive</a>
+                    <a href="{% url 'index' %}#stories">Subscribe</a>
+                </div>
+
+                <div class="footer__col">
+                    <h4>About</h4>
+                    <a href="{% url 'index' %}#about">Our Story</a>
+                    <a href="{% url 'index' %}#about">Team</a>
+                    <a href="{% url 'index' %}#about">Contact</a>
+                </div>
+
+                <div class="footer__col">
+                    <h4>Connect</h4>
+                    <a href="#" rel="noopener noreferrer" target="_blank">Facebook</a>
+                    <a href="#" rel="noopener noreferrer" target="_blank">Twitter</a>
+                    <a href="#" rel="noopener noreferrer" target="_blank">YouTube</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer__bottom">
+            <p>
+                © 2026 Indian Thozhilali. All rights reserved.
+            </p>
+
+            <p>
+                <a href="{% url 'developers' %}" class="developer-link">
+                    Site by Adithyan & Sreeram.
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>

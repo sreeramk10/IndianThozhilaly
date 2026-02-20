@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Dynamic Title -->
+    <title>{% block title %}Indian Thozhilali — Labor Magazine{% endblock %}</title>
+
+    <!-- Dynamic Meta Description -->
+    <meta name="description"
+        content="{% block meta_description %}Kerala's premier labor magazine since 1950. In-depth reporting on workers' rights, union activities, and labor laws. Official publication of INTUC Kerala.{% endblock %}">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% block og_title %}Indian Thozhilali — Labor Magazine{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}Kerala's premier labor magazine. Workers' rights, union activities, and labor law coverage since 1950.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% block og_image %}{% static 'assets/cover.png' %}{% endblock %}">
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Fonts with display=swap for better performance -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@300;400;500;600;700&family=Noto+Serif+Malayalam:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="{% static 'css/styles.css' %}" as="style">
+    <link rel="preload" href="{% static 'assets/logoo.png' %}" as="image">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Loader -->
+    {% include 'includes/_loader.html' %}
+
+    <!-- Custom Cursor -->
+    {% include 'includes/_cursor.html' %}
+
+    <!-- Minimal Navigation -->
+    {% include 'includes/_nav.html' %}
+
+    <!-- Fullscreen Menu -->
+    {% include 'includes/_menu.html' %}
+
+    <!-- Main Content -->
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'includes/_footer.html' %}
+
+    <!-- Scripts - Deferred for Performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

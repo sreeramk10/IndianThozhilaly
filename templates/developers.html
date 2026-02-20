@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developers — Indian Thozhilali</title>
+
+    <style>
+        :root {
+            --ink: #1a1814;
+            --ink-secondary: #3d3a35;
+            --ink-muted: #888074;
+            --ink-faint: #c4bfb8;
+            --paper: #f5f2ed;
+            --paper-warm: #ede9e2;
+            --rule: rgba(26, 24, 20, 0.10);
+
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 32px;
+            --space-lg: 64px;
+            --space-xl: 96px;
+
+            --transition: 0.3s ease;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .developers-page {
+            padding: var(--space-xl) var(--space-md);
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .developers-page__header {
+            margin-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: var(--space-md);
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        .developers-page__intro {
+            margin-top: var(--space-sm);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.7;
+            max-width: 480px;
+        }
+
+        .developers-page__grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background-color: var(--rule);
+            border: 1px solid var(--rule);
+        }
+
+        .dev-card {
+            background-color: var(--paper);
+            padding: var(--space-lg) var(--space-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            position: relative;
+            transition: background-color var(--transition);
+            overflow: hidden;
+        }
+
+        .dev-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: var(--paper-warm);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 0;
+        }
+
+        .dev-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .dev-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .dev-card__index {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .dev-card__name {
+            font-family: var(--font-serif);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: var(--ink);
+            margin-top: auto;
+        }
+
+        .dev-card__role {
+            font-size: 0.8rem;
+            color: var(--ink-muted);
+            line-height: 1.5;
+            letter-spacing: 0.01em;
+            max-width: 240px;
+        }
+
+        .dev-card__rule {
+            width: 32px;
+            height: 1px;
+            background-color: var(--ink-faint);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color var(--transition);
+        }
+
+        .dev-card:hover .dev-card__rule {
+            width: 56px;
+            background-color: var(--ink);
+        }
+
+        /* Link group */
+        .dev-card__links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 20px;
+            margin-top: var(--space-xs);
+        }
+
+        .dev-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            transition: color var(--transition), gap var(--transition);
+        }
+
+        .dev-card__link svg {
+            flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dev-card__link:hover {
+            color: var(--ink);
+            gap: 8px;
+        }
+
+        .dev-card__link--portfolio:hover svg {
+            transform: translate(2px, -2px);
+        }
+
+        .dev-card__link-sep {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background-color: var(--ink-faint);
+            flex-shrink: 0;
+        }
+
+        .developers-page__footer {
+            margin-top: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .developers-page__footer p {
+            font-size: 0.72rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        .developers-page__footer-line {
+            flex: 1;
+            height: 1px;
+            background-color: var(--rule);
+        }
+
+        @media (max-width: 600px) {
+            .developers-page {
+                padding: var(--space-lg) var(--space-sm);
+            }
+
+            .developers-page__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dev-card {
+                padding: var(--space-md) var(--space-sm);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="developers-page">
+        <div class="developers-page__header">
+            <span class="section-label">നിർമ്മാണം</span>
+            <h1 class="section-title">Website<br>Developers</h1>
+            <p class="developers-page__intro">
+                The team behind the design, development, and technical architecture of this platform.
+            </p>
+        </div>
+
+        <div class="developers-page__grid">
+            <div class="dev-card">
+                <span class="dev-card__index">01</span>
+                <h3 class="dev-card__name">Adithyan PR</h3>
+                <div class="dev-card__rule"></div>
+                <p class="dev-card__role">Frontend Development &amp; Template Integration</p>
+                <div class="dev-card__links">
+                    <a href="https://adithyanpr.site/" target="_blank" rel="noopener noreferrer"
+                        class="dev-card__link dev-card__link--portfolio">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" aria-hidden="true">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                        Portfolio
+                    </a>
+                    <span class="dev-card__link-sep" aria-hidden="true"></span>
+                    <a href="https://www.linkedin.com/in/adithyanpr/" target="_blank" rel="noopener noreferrer"
+                        class="dev-card__link">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect x="2" y="9" width="4" height="12" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="dev-card">
+                <span class="dev-card__index">02</span>
+                <h3 class="dev-card__name">Sreeram K Menon</h3>
+                <div class="dev-card__rule"></div>
+                <p class="dev-card__role">Backend Development &amp; Django ORM</p>
+                <div class="dev-card__links">
+                    <a href="https://www.linkedin.com/in/sreeram-k-menon" target="_blank" rel="noopener noreferrer"
+                        class="dev-card__link">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect x="2" y="9" width="4" height="12" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer note -->
+        <div class="developers-page__footer">
+            <p>ഇന്ത്യൻ തൊഴിലാളി &mdash; {{ current_year }}</p>
+            <div class="developers-page__footer-line"></div>
+        </div>
+
+    </section>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof gsap === 'undefined') return;
+
+            const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (noMotion) return;
+
+            // Pre-hide
+            gsap.set('.section-label', { y: 10, opacity: 0 });
+            gsap.set('.section-title', { y: 24, opacity: 0 });
+            gsap.set('.developers-page__intro', { y: 16, opacity: 0 });
+            gsap.set('.dev-card', { y: 32, opacity: 0 });
+            gsap.set('.developers-page__footer', { opacity: 0 });
+
+            // Entrance timeline
+            const tl = gsap.timeline({ delay: 0.2 });
+
+            tl.to('.section-label', { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' })
+                .to('.section-title', { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, '-=0.4')
+                .to('.developers-page__intro', { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+                .to('.dev-card', {
+                    y: 0, opacity: 1,
+                    duration: 0.7,
+                    stagger: 0.12,
+                    ease: 'power2.out'
+                }, '-=0.3')
+                .to('.developers-page__footer', { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+        });
+    </script>
+
+</body>
+
+</html>
