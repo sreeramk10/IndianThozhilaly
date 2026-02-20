@@ -1,0 +1,11 @@
+
+
+textarea {
+    resize: none;
+    height: 250px;
+}
+
+a[href*="/media/"] {
+    display: none !important;
+}
+

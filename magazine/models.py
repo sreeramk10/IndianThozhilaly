@@ -35,6 +35,7 @@ class Magazine(models.Model):
     issued_at = models.DateField(blank=True, null=True, verbose_name="Issued At")
     page_count = models.IntegerField(blank=True, null=True, verbose_name="Page Count")
     slug = models.SlugField(max_length=200, unique=True, verbose_name="Slug")
+    view_count = models.PositiveIntegerField(default=0, verbose_name="View Count")
 
     class Meta:
         verbose_name = "Magazine"
@@ -102,7 +103,12 @@ class Content(models.Model):
     slug = models.SlugField(
         max_length=200, unique=True, verbose_name="Content Slug", editable=False
     )
-
+    c_pdf = models.FileField(
+        upload_to="magazine/{magazine_id}/content/pdf/",
+        null=True,
+        blank=True,verbose_name="Content PDF",
+    )
+    
     class Meta:
         verbose_name = "Content"
         verbose_name_plural = "Contents"

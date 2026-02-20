@@ -132,6 +132,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django daisy settings
 DAISY_SETTINGS = {
-    'DEFAULT_THEME': 'dark',  # Always use this theme
+    'DEFAULT_THEME': 'corporate',  # Always use this theme
     'SHOW_THEME_SELECTOR': False,  # Hide selector
 }
