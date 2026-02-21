@@ -7,11 +7,6 @@
 
 <!-- Hero -->
 <header class="hero">
-  <div class="hero__background">
-    <img src="{% static 'assets/white.jpg' %}" alt="തൊഴിലാളി ഐക്യദാർഢ്യം" class="hero__bg-image" width="1920"
-      height="1080">
-    <div class="hero__overlay"></div>
-  </div>
 
   <!-- Left flag -->
   <div class="hero__flag hero__flag--left"></div>
@@ -23,8 +18,8 @@
       <div class="hero__masthead">
         <!-- Logo -->
         <div class="hero__logo-wrap">
-          <img src="{% static 'assets/logoo.png' %}" alt="Indian Thozhilali Logo" class="hero__logo" width="96"
-            height="96" loading="eager">
+          <img src="{% static 'assets/indian-thozhilaly-logo.png' %}" alt="Indian Thozhilali Logo" class="hero__logo"
+            width="96" height="96" loading="eager">
         </div>
         <!-- Title -->
         <h1 class="hero__title hero__title--masthead">
@@ -45,7 +40,6 @@
           </svg>
         </a>
       </div>
-
     </div>
   </div>
 </header>
@@ -62,8 +56,10 @@
     <div class="featured__content">
       <div class="featured__image" data-reveal-image>
         <div class="magazine-cover">
+          {% if featured_magazine.cover_image %}
           <img src="{{ featured_magazine.cover_image.url }}" alt="{{ featured_magazine.title }}" loading="lazy"
             width="600" height="850">
+          {% endif %}
           <div class="magazine-cover__badge">{{ featured_magazine.issued_at|date:"M y" }}</div>
         </div>
       </div>
@@ -127,6 +123,7 @@
   </div>
 </section>
 
+
 <!-- Stories Grid -->
 <section class="stories" id="stories">
   <div class="stories__wrapper">
@@ -135,32 +132,56 @@
       <h2 class="section-title" data-reveal>സമീപകാല ലേഖനങ്ങൾ</h2>
     </div>
 
-    {% if recent_magazines %}
+    {% if recent_contents %}
     <div class="stories__grid">
-      {% for magazine in recent_magazines %}
+      {% for content in recent_contents %}
       <article class="story-card {% if forloop.first %}story-card--featured{% endif %}">
-        <a href="{% url 'magazine_detail' magazine.slug %}" class="story-card__link">
+        <a href="{% url 'magazine_detail' content.magazine.slug %}#content-{{ content.slug }}" class="story-card__link">
+
+          <!-- Image: content image first, fallback to magazine cover -->
           <div class="story-card__media">
             <div class="story-card__image" data-reveal-image>
-              <img src="{{ magazine.cover_image.url }}" alt="{{ magazine.title }}" loading="lazy" width="800"
+              {% if content.image %}
+              <img src="{{ content.image.url }}" alt="{{ content.title }}" loading="lazy" width="800" height="600">
+              {% elif content.magazine.cover_image %}
+              <img src="{{ content.magazine.cover_image.url }}" alt="{{ content.title }}" loading="lazy" width="800"
                 height="600">
+              {% endif %}
             </div>
           </div>
+
           <div class="story-card__content">
-            <time class="story-card__date" datetime="{{ magazine.issued_at|date:'Y-m-d' }}">
-              {{ magazine.issued_at|date:"F d, Y" }}
-            </time>
-            <h3 class="story-card__title">{{ magazine.title }}</h3>
-            <p class="story-card__excerpt">{{ magazine.description|truncatewords:20 }}</p>
+
+            <!-- Date + page label -->
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <time class="story-card__date" datetime="{{ content.magazine.issued_at|date:'Y-m-d' }}">
+                {{ content.magazine.issued_at|date:"F Y" }}
+              </time>
+              {% if content.page_number %}
+              <span style="font-family:var(--font-ui); font-size:10px; font-weight:600;
+                           text-transform:uppercase; letter-spacing:0.1em;
+                           color:var(--ink-secondary); opacity:0.6;">
+                · Page {{ content.page_number }}
+              </span>
+              {% endif %}
+            </div>
+
+            <h3 class="story-card__title">{{ content.title }}</h3>
+
+            <p class="story-card__excerpt">
+              {{ content.magazine.title|truncatewords:10 }}
+            </p>
+
             {% if forloop.first %}
             <div class="story-card__meta">
-              <span class="story-card__read">6 മിനിറ്റ് വായന</span>
+              <span class="story-card__read">വായിക്കുക</span>
               <span class="story-card__arrow" aria-hidden="true">→</span>
             </div>
             {% else %}
-            <span class="story-card__read">4 മിനിറ്റ്</span>
+            <span class="story-card__read">വായിക്കുക →</span>
             {% endif %}
           </div>
+
         </a>
       </article>
       {% endfor %}
@@ -171,8 +192,9 @@
   </div>
 </section>
 
+
 <!-- Archive -->
-<section class="archive" id="archive">
+<!-- <section class="archive" id="archive">
   <div class="archive__wrapper">
     <div class="archive__header">
       <span class="section-label" data-reveal>ആർക്കൈവ്</span>
@@ -184,7 +206,9 @@
       {% for magazine in archive_magazines %}
       <div class="archive-item">
         <div class="archive-item__cover" data-reveal-image>
+          {% if magazine.cover_image %}
           <img src="{{ magazine.cover_image.url }}" alt="{{ magazine.title }}" loading="lazy" width="500" height="700">
+          {% endif %}
           <div class="archive-item__overlay">
             {% if magazine.pdf %}
             <a href="{{ magazine.pdf.url }}" class="archive-item__download"
@@ -208,7 +232,6 @@
       {% endfor %}
     </div>
 
-    <!-- View More Button -->
     <div style="text-align: center; margin-top: 48px;">
       <a href="{% url 'archive_list' %}" class="btn-primary">
         <span class="btn-primary__text">എല്ലാ ആർക്കൈവുകളും കാണുക</span>
@@ -224,7 +247,8 @@
       ആർക്കൈവ് പൂരിപ്പിക്കും.</p>
     {% endif %}
   </div>
-</section>
+</section> -->
+
 
 <!-- About -->
 <section class="about" id="about">

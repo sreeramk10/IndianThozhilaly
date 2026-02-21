@@ -11,7 +11,7 @@ admin.site.site_title = "THOZHILALY"
 
 class ContentInline(admin.TabularInline,NavTabMixin):
     model = Content
-    fieldsets = (("Content Details", {"fields": ("title", "image", "c_pdf")}),)
+    fieldsets = (("Content Details", {"fields": ("title", "page_number", "image", "c_pdf")}),)
     extra = 1
 
 

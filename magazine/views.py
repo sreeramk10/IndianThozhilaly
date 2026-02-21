@@ -1,18 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from magazine.models import Magazine, SiteVisit
-from magazine.models import SiteVisit, Magazine, Content
+from magazine.models import Magazine, SiteVisit, Content
 from django.http import FileResponse, Http404
 import os
 
-# Create your views here.
 
 def visitor_count(request):
     return {
         'total_visits': SiteVisit.get_total_visits(),
     }
-    
-
 
 
 def get_page_range(paginator, current_page, delta=2):
@@ -33,8 +29,6 @@ def get_page_range(paginator, current_page, delta=2):
 
 
 def index(request):
-    """Homepage with featured magazine, recent stories, and archive preview"""
-
     featured_magazine = Magazine.objects.filter(
         is_published=True,
         is_featured=True
@@ -45,10 +39,11 @@ def index(request):
             is_published=True
         ).first()
 
-    recent_magazines = Magazine.objects.filter(
-        is_published=True
-    ).exclude(
-        id=featured_magazine.id if featured_magazine else None
+    # Fetch contents from published magazines for stories grid
+    recent_contents = Content.objects.filter(
+        magazine__is_published=True
+    ).select_related('magazine').order_by(
+        '-magazine__issued_at', 'page_number'
     )[:6]
 
     archive_magazines = Magazine.objects.filter(
@@ -57,36 +52,32 @@ def index(request):
 
     context = {
         'featured_magazine': featured_magazine,
-        'recent_magazines': recent_magazines,
+        'recent_contents': recent_contents,
         'archive_magazines': archive_magazines,
     }
     return render(request, 'index.html', context)
 
 
-def magazine_detail(request, slug):
-    """Individual magazine detail page"""
 
+def magazine_detail(request, slug):
     magazine = get_object_or_404(Magazine, slug=slug, is_published=True)
     magazine.increment_view_count()
 
-    related_magazines = Magazine.objects.filter(
-        is_published=True
-    ).exclude(id=magazine.id)[:3]
+    # Fetch all sub-PDF contents ordered by page number
+    contents = magazine.content.all()
 
     context = {
         'magazine': magazine,
-        'related_magazines': related_magazines,
+        'contents': contents,
     }
     return render(request, 'magazine_detail.html', context)
 
 
 def archive(request):
-
     all_magazines = Magazine.objects.filter(
         is_published=True
     ).order_by('-issued_at')
 
-    # 10 per page
     paginator = Paginator(all_magazines, 10)
     page = request.GET.get('page', 1)
 
@@ -97,7 +88,6 @@ def archive(request):
     except EmptyPage:
         paginated_magazines = paginator.page(paginator.num_pages)
 
-    # Group current page items by year → list of (year, [magazines]) tuples
     year_dict = {}
     for magazine in paginated_magazines:
         if magazine.issued_at:
@@ -122,6 +112,7 @@ def archive(request):
     }
     return render(request, 'archive.html', context)
 
+
 def download_pdf(request, slug):
     magazine = get_object_or_404(Magazine, slug=slug, is_published=True)
     if magazine.pdf and os.path.exists(magazine.pdf.path):
@@ -134,6 +125,7 @@ def download_pdf(request, slug):
         )
         return response
     raise Http404
+
 
 def developers(request):
     return render(request, "developers.html")

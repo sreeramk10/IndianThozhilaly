@@ -29,6 +29,7 @@ class Magazine(models.Model):
         upload_to="magazine/{id}/pdf/", null=True, blank=True, verbose_name="PDF"
     )
     is_published = models.BooleanField(default=False, verbose_name="Published")
+    is_featured = models.BooleanField(default=False, verbose_name="Featured")
     created_at = models.DateTimeField(
         auto_now_add=True, editable=False, verbose_name="Created At"
     )
@@ -74,6 +75,10 @@ class Magazine(models.Model):
             self.slug = generate_unique_slug(self, self.title, transliterate=True)
         self.__change_issued_at()
         super(Magazine, self).save(*args, **kwargs)
+
+    def increment_view_count(self):
+        Magazine.objects.filter(id=self.id).update(view_count=models.F('view_count') + 1)
+
 
 
 """
