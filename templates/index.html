@@ -57,8 +57,10 @@
       <div class="featured__image" data-reveal-image>
         <div class="magazine-cover">
           {% if featured_magazine.cover_image %}
-          <img src="{{ featured_magazine.cover_image.url }}" alt="{{ featured_magazine.title }}" loading="lazy"
+          <a href="{% url 'magazine_detail' featured_magazine.slug %}">
+            <img src="{{ featured_magazine.cover_image.url }}" alt="{{ featured_magazine.title }}" loading="lazy"
             width="600" height="850">
+          </a>
           {% endif %}
           <div class="magazine-cover__badge">{{ featured_magazine.issued_at|date:"M y" }}</div>
         </div>
